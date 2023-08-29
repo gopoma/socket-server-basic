@@ -1,0 +1,14 @@
+version: "3.9"
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: socket-server-basic-docker
+    container_name: socketapp
+    restart: always # reiniciar el contenedor si se detiene
+    ports:
+      - '${PORT}:${PORT}'
+    environment:
+      PORT: ${PORT}
