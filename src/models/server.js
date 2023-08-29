@@ -3,6 +3,7 @@ const express = require('express');
 const http     = require('http');
 const socketio = require('socket.io');
 const path     = require('path');
+const cors     = require('cors');
 
 const Sockets  = require('./sockets');
 
@@ -21,6 +22,9 @@ class Server {
     middlewares() {
         // Desplegar el directorio público
         this.app.use(express.static(path.join(__dirname, '..', 'public')));
+
+        // CORS
+        this.app.use(cors());
     }
 
     // Esta configuración se puede tener aquí o como propieda de clase
@@ -35,6 +39,13 @@ class Server {
 
         // Inicializar sockets
         this.configurarSockets();
+
+        this.app.get('/api', (req, res) => {
+            return res.json({
+                ok: true,
+                msg: 'socket-server-basic'
+            });
+        })
 
         // Inicializar Server
         this.server.listen(this.port, () => {
